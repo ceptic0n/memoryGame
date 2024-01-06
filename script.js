@@ -57,11 +57,76 @@ function createDivsForColors(colorArray) {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//create 2 variables which will represent the 2 cards being selected
+//cards have to be declared outside of handleCardClick so they won't overwrite eachother 
+let card1 = null;
+let card2 = null;
+let clickedCard1 = null;
+let clickedCard2 = null;
+
 // TODO: Implement this function!
 function handleCardClick(event) {
   // you can use event.target to see which element was clicked
   console.log("you just clicked", event.target);
+
+  const clickedCard = event.target;
+  const cardColor = clickedCard.className
+
+  //changes the color of the card when clicked
+  clickedCard.style.backgroundColor = cardColor; 
+
+  if(card1 === null){
+    card1 = cardColor;
+    clickedCard1 = clickedCard;
+    console.log(`Card 1 = ${card1}`);
+  } else if(card2 === null && clickedCard !== clickedCard1){
+    card2 = cardColor;
+    clickedCard2 = clickedCard;
+    console.log(`Card 2 = ${card2}`);
+  }
+
+   //check if 2 cards have been clicked, if they are then set both to null again
+  if(card1 !== null && card2 !== null){
+    //check if cards are matching, if not, reset the color after 1 second, and set back to null
+    if(card1 === card2){
+      console.log("Match!");
+      resetSelectedCards();
+    } else {
+      console.log("No Match!");
+      setTimeout(function(){
+        clickedCard1.style.backgroundColor = "darkgrey";
+        clickedCard2.style.backgroundColor = "darkgrey";
+        resetSelectedCards();
+      }, 1000);
+    }
+  }
 }
+
+//function to reset selected cards to null
+function resetSelectedCards(){
+  card1 = null;
+  card2 = null;
+  clickedCard1 = null;
+  clickedCard2 = null;
+}
+
+
 
 // when the DOM loads
 createDivsForColors(shuffledColors);
