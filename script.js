@@ -1,5 +1,8 @@
 const gameContainer = document.getElementById("game");
 
+//selector to track the score
+const score = document.querySelector("h2");
+
 const COLORS = [
   "red",
   "blue",
@@ -59,26 +62,18 @@ function createDivsForColors(colorArray) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //create 2 variables which will represent the 2 cards being selected
 //cards have to be declared outside of handleCardClick so they won't overwrite eachother 
 let card1 = null;
 let card2 = null;
+
+
 let clickedCard1 = null;
 let clickedCard2 = null;
+
+//
+let gameScore = 0;
+const maxScore = 5;
 
 // TODO: Implement this function!
 function handleCardClick(event) {
@@ -106,7 +101,10 @@ function handleCardClick(event) {
     //check if cards are matching, if not, reset the color after 1 second, and set back to null
     if(card1 === card2){
       console.log("Match!");
+      gameScore++;
+      score.innerText = `Score : ${gameScore}`;
       resetSelectedCards();
+
     } else {
       console.log("No Match!");
       setTimeout(function(){
@@ -115,6 +113,14 @@ function handleCardClick(event) {
         resetSelectedCards();
       }, 1000);
     }
+  }
+
+  //when maxScore is reached, reload the window..
+  if(gameScore == maxScore){
+    score.innerText = ("You Win! Restarting...");
+    setTimeout(function(){
+      window.location.reload();
+    }, 4000);
   }
 }
 
